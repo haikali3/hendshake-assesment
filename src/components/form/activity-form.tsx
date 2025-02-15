@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
+import { Activity, ActivityFormProps } from "@/app/types";
 
 const formSchema = z.object({
   activity: z.string().min(1, "Activity is required"),
@@ -46,7 +47,24 @@ const formSchema = z.object({
   accessibility: z.number(),
 });
 
-export default function ActivityForm() {
+interface FormData {
+  activity: string;
+  price: number;
+  type:
+    | "education"
+    | "recreational"
+    | "social"
+    | "diy"
+    | "charity"
+    | "cooking"
+    | "relaxation"
+    | "music"
+    | "busywork";
+  bookingRequired: boolean;
+  accessibility: number;
+}
+
+export default function ActivityForm({ onAddActivity }: ActivityFormProps) {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -58,139 +76,130 @@ export default function ActivityForm() {
     },
   });
 
-  interface FormData {
-    activity: string;
-    price: number;
-    type:
-      | "education"
-      | "recreational"
-      | "social"
-      | "diy"
-      | "charity"
-      | "cooking"
-      | "relaxation"
-      | "music"
-      | "busywork";
-    bookingRequired: boolean;
-    accessibility: number;
-  }
-
   const onSubmit = (data: FormData) => {
     console.log("Form Data:", data);
-    // You can now send this data to your backend or process it as needed
+    // Call the parent's callback to add the activity
+    onAddActivity(data);
+    // Optionally reset the form after submission
+    form.reset();
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {/* Activity Field */}
-        <FormField
-          control={form.control}
-          name="activity"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Activity</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter activity" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          {/* Activity Field */}
+          <FormField
+            control={form.control}
+            name="activity"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Activity</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter activity" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        {/* Price Field */}
-        <FormField
-          control={form.control}
-          name="price"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Price</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  step="0.01"
-                  placeholder="Enter price"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          {/* Price Field */}
+          <FormField
+            control={form.control}
+            name="price"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Price</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    step="0.01"
+                    placeholder="Enter price"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        {/* Type Field */}
-        <FormField
-          control={form.control}
-          name="type"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Type</FormLabel>
-              <FormControl>
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="education">Education</SelectItem>
-                    <SelectItem value="recreational">Recreational</SelectItem>
-                    <SelectItem value="social">Social</SelectItem>
-                    <SelectItem value="diy">DIY</SelectItem>
-                    <SelectItem value="charity">Charity</SelectItem>
-                    <SelectItem value="cooking">Cooking</SelectItem>
-                    <SelectItem value="relaxation">Relaxation</SelectItem>
-                    <SelectItem value="music">Music</SelectItem>
-                    <SelectItem value="busywork">Busywork</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          {/* Type Field */}
+          <FormField
+            control={form.control}
+            name="type"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Type</FormLabel>
+                <FormControl>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="education">Education</SelectItem>
+                      <SelectItem value="recreational">Recreational</SelectItem>
+                      <SelectItem value="social">Social</SelectItem>
+                      <SelectItem value="diy">DIY</SelectItem>
+                      <SelectItem value="charity">Charity</SelectItem>
+                      <SelectItem value="cooking">Cooking</SelectItem>
+                      <SelectItem value="relaxation">Relaxation</SelectItem>
+                      <SelectItem value="music">Music</SelectItem>
+                      <SelectItem value="busywork">Busywork</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        {/* Booking Required Field */}
-        <FormField
-          control={form.control}
-          name="bookingRequired"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-center space-x-3">
-              <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-              <FormLabel>Booking required</FormLabel>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          {/* Booking Required Field */}
+          <FormField
+            control={form.control}
+            name="bookingRequired"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-center space-x-3">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <FormLabel>Booking required</FormLabel>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        {/* Accessibility Field */}
-        <FormField
-          control={form.control}
-          name="accessibility"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>
-                Accessibility ⭐ <span>{field.value.toFixed(2)}</span>
-              </FormLabel>
-              <FormControl>
-                <Slider
-                  defaultValue={[field.value]}
-                  max={1}
-                  step={0.01}
-                  onValueChange={(value) => field.onChange(value[0])}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          {/* Accessibility Field */}
+          <FormField
+            control={form.control}
+            name="accessibility"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Accessibility ⭐ <span>{field.value.toFixed(2)}</span>
+                </FormLabel>
+                <FormControl>
+                  <Slider
+                    defaultValue={[field.value]}
+                    max={1}
+                    step={0.01}
+                    onValueChange={(value) => field.onChange(value[0])}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        {/* Submit Button */}
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+          {/* Submit Button */}
+          <Button type="submit">Submit</Button>
+        </form>
+      </Form>
+    </>
   );
+}
+function onAddActivity(data: FormData) {
+  throw new Error("Function not implemented.");
 }
