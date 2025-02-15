@@ -7,6 +7,9 @@ const ActivityList: React.FC<ActivityListProps> = ({ activities }) => {
   return (
     <div className="mt-8">
       <h2 className="text-xl font-semibold">Submitted Activities</h2>
+      <h3 className="text-lg text-gray-500">
+        Total Number of Activities in the List: {activities.length}
+      </h3>
       {activities.length > 0 ? (
         <ul className="space-y-4 mt-4">
           {activities.map((activity, index) => (
