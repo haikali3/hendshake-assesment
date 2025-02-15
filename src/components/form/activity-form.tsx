@@ -47,7 +47,7 @@ const formSchema = z.object({
 });
 
 export default function ActivityForm() {
-  const form = useForm({
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       activity: "",
@@ -58,7 +58,24 @@ export default function ActivityForm() {
     },
   });
 
-  const onSubmit = (data) => {
+  interface FormData {
+    activity: string;
+    price: number;
+    type:
+      | "education"
+      | "recreational"
+      | "social"
+      | "diy"
+      | "charity"
+      | "cooking"
+      | "relaxation"
+      | "music"
+      | "busywork";
+    bookingRequired: boolean;
+    accessibility: number;
+  }
+
+  const onSubmit = (data: FormData) => {
     console.log("Form Data:", data);
     // You can now send this data to your backend or process it as needed
   };
@@ -155,7 +172,9 @@ export default function ActivityForm() {
           name="accessibility"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Accessibility</FormLabel>
+              <FormLabel>
+                Accessibility ⭐ <span>{field.value.toFixed(2)}</span>
+              </FormLabel>
               <FormControl>
                 <Slider
                   defaultValue={[field.value]}
