@@ -11,6 +11,7 @@ const ActivityList: React.FC<ActivityListProps> = ({
   return (
     <div className="mt-8">
       <h2 className="text-xl font-semibold">Submitted Activities</h2>
+      {/* 3. Summarizing the list - At the top of the list, display a count of the total number of items in the list */}
       <h3 className="text-lg text-gray-500">
         Total Number of Activities in the List: {activities.length}
       </h3>

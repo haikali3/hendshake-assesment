@@ -2,20 +2,35 @@
 import ActivityForm from "../components/form/activity-form";
 import ActivityList from "@/components/activity-list";
 import { Separator } from "@/components/ui/separator";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Activity } from "@/app/types";
 
 export default function Home() {
   const [activities, setActivities] = useState<Activity[]>([]);
 
-  // Callback to add a new activity to the list
+  // 1. Add a new activity to the list.
   const handleAddActivity = (activity: Activity) => {
     setActivities((prev) => [...prev, activity]);
   };
 
+  // 2. Remove an activity from the list.
   const handleDeleteActivity = (index: number) => {
     setActivities((prev) => prev.filter((_, i) => i !== index));
   };
+
+  // 4. Load and store activities in localStorage.
+  // Load stored activities from localStorage when the component mounts.
+  useEffect(() => {
+    const storedActivities = localStorage.getItem("activities");
+    if (storedActivities) {
+      setActivities(JSON.parse(storedActivities));
+    }
+  }, []);
+
+  // Whenever the activities state changes, update localStorage.
+  useEffect(() => {
+    localStorage.setItem("activities", JSON.stringify(activities));
+  }, [activities]);
 
   return (
     <>
