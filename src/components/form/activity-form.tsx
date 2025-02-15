@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
-import { Activity, ActivityFormProps } from "@/app/types";
+import { ActivityFormProps } from "@/app/types";
 
 const formSchema = z.object({
   activity: z.string().min(1, "Activity is required"),
@@ -199,7 +199,4 @@ export default function ActivityForm({ onAddActivity }: ActivityFormProps) {
       </Form>
     </>
   );
-}
-function onAddActivity(data: FormData) {
-  throw new Error("Function not implemented.");
 }
