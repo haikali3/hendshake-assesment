@@ -2,8 +2,12 @@
 
 import { ActivityListProps } from "@/app/types";
 import * as React from "react";
+import { Button } from "./ui/button";
 
-const ActivityList: React.FC<ActivityListProps> = ({ activities }) => {
+const ActivityList: React.FC<ActivityListProps> = ({
+  activities,
+  onDeleteActivity,
+}) => {
   return (
     <div className="mt-8">
       <h2 className="text-xl font-semibold">Submitted Activities</h2>
@@ -31,6 +35,9 @@ const ActivityList: React.FC<ActivityListProps> = ({ activities }) => {
                 <strong>Accessibility:</strong>{" "}
                 {activity.accessibility.toFixed(2)}
               </p>
+              <div>
+                <Button onClick={() => onDeleteActivity(index)}>Delete</Button>
+              </div>
             </li>
           ))}
         </ul>

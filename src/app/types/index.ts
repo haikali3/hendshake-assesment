@@ -17,6 +17,7 @@ export interface Activity {
 
 export interface ActivityListProps {
   activities: Activity[];
+  onDeleteActivity: (index: number) => void;
 }
 
 export interface ActivityFormProps {

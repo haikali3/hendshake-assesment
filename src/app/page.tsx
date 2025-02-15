@@ -13,12 +13,19 @@ export default function Home() {
     setActivities((prev) => [...prev, activity]);
   };
 
+  const handleDeleteActivity = (index: number) => {
+    setActivities((prev) => prev.filter((_, i) => i !== index));
+  };
+
   return (
     <>
       <div className="flex flex-col justify-center items-center p-4">
         <ActivityForm onAddActivity={handleAddActivity} />
         <Separator className="m-4" />
-        <ActivityList activities={activities} />
+        <ActivityList
+          activities={activities}
+          onDeleteActivity={handleDeleteActivity}
+        />
       </div>
     </>
   );
