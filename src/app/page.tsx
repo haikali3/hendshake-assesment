@@ -34,6 +34,32 @@ export default function Home() {
 
   return (
     <>
+      <div className="flex justify-center space-x-4 p-4">
+        <a
+          href="https://github.com/haikali3/hendshake-assesment"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 hover:underline"
+        >
+          GitHub
+        </a>
+        <a
+          href="https://www.haikal.dev"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 hover:underline"
+        >
+          Website
+        </a>
+        <a
+          href="https://linkedin.com/in/haikaltahar"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 hover:underline"
+        >
+          LinkedIn
+        </a>
+      </div>
       <div className="flex flex-col justify-center items-center p-4">
         <ActivityForm onAddActivity={handleAddActivity} />
         <Separator className="m-4" />
